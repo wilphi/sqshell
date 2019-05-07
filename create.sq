@@ -1,0 +1,2 @@
+create table test (col1 int, col2 string)
+create table test2 (col1 bool, col2 int, col3 string)

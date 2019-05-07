@@ -1,0 +1,8 @@
+CREATE TABLE mytable (id int,firstname string,lastname string,addr string,city string,postalcode string,phone string,notes string)
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (1,"Hu","Shepard","231-3587 Mauris Road","Castello Tesino","9380","(384) 530-8363","amet, consectetuer adipiscing elit. Curabitur sed")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (2,"Timothy","Woods","Ap #547-3909 Massa Road","Meldert","6339 ZM","(939) 130-6736","enim, sit amet ornare")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (3,"Elton","Good","4144 Morbi St.","Orosei","3511","(286) 890-4034","lorem vitae odio sagittis semper. Nam tempor")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (4,"Rebekah","Marks","P.O. Box 710, 1033 Duis Av.","Asigliano Veneto","4433","(669) 797-7264","mollis. Duis sit amet diam")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (5,"Doris","Hampton","7650 Turpis. Rd.","Gravataí","E3P 9N2","(903) 666-8403","nonummy ut, molestie in,")
+select * from mytable
+

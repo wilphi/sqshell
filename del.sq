@@ -1,0 +1,6 @@
+CREATE TABLE names (id int, firstname string, lastname string, phone string, cell string, notes string, city string, country string)
+INSERT INTO names (id, firstname, lastname, phone, cell, city, country) VALUES (1, "Aracelis", "Mcelyea", "(880) 787-9323", "(276) 541-9596", "Grantsville", " United States"), (2, "Angelita", "Leeker", "(850) 897-4170", "(589) 281-3967", "Palm Springs", " United States"), (3, "Larry", "Parliman", "(815) 817-4702", "(843) 430-8834", "Wood River", " United States"), (4, "Kortney", "Esbensen", "(204) 289-3222", "(287) 946-4692", "Hampstead", " United States"), (5, "Lane", "Behrendt", "(508) 825-7794", "(183) 459-3492", "Grise Fiord", " Canada")
+INSERT INTO names (id, firstname, lastname, phone, cell, city, country) VALUES (6, "Nathalie", "Corsey", "(984) 651-3785", "(279) 217-7763", "Ocean City", " United States"), (7, "Antoinette", "Guiterrez", "(371) 893-8597", "(316) 393-6317", "North Richland Hills", " United States"), (8, "Ashlea", "Ginnings", "(847) 798-7873", "(763) 422-2796", "Arkansas City", " United States"), (9, "Georgianna", "Franck", "(566) 834-4266", "(916) 415-3029", "Jamesburg", " United States"), (10, "Marchelle", "Locatelli", "(143) 661-3977", "(407) 262-8388", "El Dorado", " United States")
+show tables
+delete from names where id <5
+

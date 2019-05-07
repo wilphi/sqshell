@@ -1,0 +1,13 @@
+CREATE TABLE mytable (id:int,firstname:string,lastname:string,addr:string,city:string,postalcode:string,phone:string,notes:string)
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (1,"Hu","Shepard","231-3587 Mauris Road","Castello Tesino","9380","(384) 530-8363","amet, consectetuer adipiscing elit. Curabitur sed")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (2,"Timothy","Woods","Ap #547-3909 Massa Road","Meldert","6339 ZM","(939) 130-6736","enim, sit amet ornare")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (3,"Elton","Good","4144 Morbi St.","Orosei","3511","(286) 890-4034","lorem vitae odio sagittis semper. Nam tempor")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (4,"Rebekah","Marks","P.O. Box 710, 1033 Duis Av.","Asigliano Veneto","4433","(669) 797-7264","mollis. Duis sit amet diam")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (5,"Doris","Hampton","7650 Turpis. Rd.","Gravataí","E3P 9N2","(903) 666-8403","nonummy ut, molestie in,")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (6,"Acton","Cantrell","Ap #723-2365 Proin St.","Ancona","T6T 6L8","(809) 153-1591","augue")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (7,"Selma","Waller","Ap #961-1237 Nec, Rd.","Leiden","84740","(229) 780-5031","Nullam velit dui, semper et, lacinia vitae, sodales")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (8,"Jaden","Farley","575-2800 Donec Ave","Jackson","23244","(112) 278-0229","felis. Nulla tempor augue")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (9,"Urielle","Greene","3269 Enim. St.","LaSalle","596121","(803) 267-7060","venenatis")
+INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (10,"Shea","Yang","P.O. Box 577, 6103 Mauris. Rd.","Piancastagnaio","31617","(969) 584-7690","eu odio tristique pharetra. Quisque ac libero nec ligula consectetuer")
+select id, firstname, lastname from mytable where id=2
+
