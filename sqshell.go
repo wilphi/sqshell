@@ -16,7 +16,7 @@ import (
 	"github.com/wilphi/sqsrv/sqprotocol/client"
 )
 
-const version = "v0.2.02"
+const version = "v0.5.01"
 
 func main() {
 	// setup logging
@@ -27,7 +27,7 @@ func main() {
 	mw := io.MultiWriter(os.Stdout, logFile)
 	log.SetOutput(mw)
 
-	log.SetLevel(log.DebugLevel)
+	log.SetLevel(log.InfoLevel)
 	log.Info("SQShell " + version)
 	log.Println("Connecting to server....")
 	conn, err := net.Dial("tcp", "localhost:3333")
@@ -61,7 +61,8 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
-		if s.TrimSpace(input) != "" {
+		input = s.TrimSpace(input)
+		if input != "" {
 			cmd := s.Fields(input)
 			log.Trace(cmd)
 			log.Trace(len(cmd))
@@ -71,14 +72,14 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 				os.Exit(0)
 			}
 			if getFirstRune(input) == '@' {
-				fmt.Printf("Reading from... %q\n", input[1:len(input)-1])
-				err = readSQFromFile(myClient, input[1:len(input)-1])
+				fmt.Printf("Reading from... %q\n", input[1:len(input)])
+				err = readSQFromFile(myClient, input[1:len(input)])
 				if err != nil {
 					log.Trace("ReadSQFromFile returns error: ", err)
 					break
 				}
 			} else {
-				req := protocol.RequestToServer{Cmd: input[:len(input)-1]}
+				req := protocol.RequestToServer{Cmd: input}
 				log.Trace("Sending request to server: ", req)
 				err = handleRequest(myClient, req)
 				if err != nil {
