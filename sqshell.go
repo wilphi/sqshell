@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"strings"
+	"sync"
 
 	"net"
 	"os"
@@ -16,7 +18,8 @@ import (
 	"github.com/wilphi/sqsrv/sqprotocol/client"
 )
 
-const version = "v0.5.01"
+const version = "v0.5.04"
+const connString = "localhost:3333"
 
 func main() {
 	// setup logging
@@ -30,17 +33,16 @@ func main() {
 	log.SetLevel(log.InfoLevel)
 	log.Info("SQShell " + version)
 	log.Println("Connecting to server....")
-	conn, err := net.Dial("tcp", "localhost:3333")
-	if err != nil {
-		log.Fatal("Error connecting to server ...", err.Error())
-	}
-	defer conn.Close()
 
-	myClient := client.SetConn(conn)
+	myClient, err := NewSrvClient(connString)
+	if err != nil {
+		return
+	}
+	defer myClient.Close()
 
 	args := os.Args[1:]
 	if len(args) > 0 {
-		err = readSQFromFile(myClient, args[0])
+		err = readSQFromFile(myClient, args)
 		if err != nil {
 			log.Fatal("Error reading from file", err)
 		}
@@ -48,6 +50,16 @@ func main() {
 		ReadFromStream(os.Stdin, myClient)
 	}
 
+}
+
+// NewSrvClient creates a new connection to the sqsrv
+func NewSrvClient(addr string) (*client.Config, error) {
+	conn, err := net.Dial("tcp", addr)
+	if err != nil {
+		log.Error("Error connecting to server ...", err.Error())
+		return nil, err
+	}
+	return client.SetConn(conn), nil
 }
 
 // ReadFromStream -
@@ -73,7 +85,12 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 			}
 			if getFirstRune(input) == '@' {
 				fmt.Printf("Reading from... %q\n", input[1:len(input)])
-				err = readSQFromFile(myClient, input[1:len(input)])
+				args := strings.Fields(input[1:len(input)])
+				if len(args) < 1 {
+					fmt.Println("No file specified.")
+					continue
+				}
+				err = readSQFromFile(myClient, args)
 				if err != nil {
 					log.Trace("ReadSQFromFile returns error: ", err)
 					break
@@ -92,9 +109,43 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 	}
 
 }
-func readSQFromFile(myClient *client.Config, filename string) error {
+
+func clientPool(sqlChan chan string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	myClient, err := NewSrvClient(connString)
+	if err != nil {
+		log.Error(err)
+		return
+	}
+	defer myClient.Close()
+	for {
+		line, ok := <-sqlChan
+		if !ok {
+			return
+		}
+		req := protocol.RequestToServer{Cmd: line}
+		err = handleRequest(myClient, req)
+		if err != nil {
+			log.Error(err)
+		}
+	}
+}
+
+func readSQFromFile(myClient *client.Config, args []string) error {
+	var numClient int
+	var err error
 	start := time.Now()
 
+	filename := args[0]
+	if len(args) > 1 {
+		numClient, err = strconv.Atoi(args[1])
+		if err != nil {
+			log.Info("Invalid number of conncurrent clients")
+			numClient = 1
+		}
+	} else {
+		numClient = 1
+	}
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Println(err)
@@ -105,18 +156,22 @@ func readSQFromFile(myClient *client.Config, filename string) error {
 	}
 	defer file.Close()
 
+	// create channel & wait group
+	sqlChan := make(chan string, numClient*2)
+	var wg sync.WaitGroup
+	for i := 0; i < numClient; i++ {
+		wg.Add(1)
+		go clientPool(sqlChan, &wg)
+	}
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := s.TrimSpace(scanner.Text())
 		if line != "" {
-			req := protocol.RequestToServer{Cmd: scanner.Text()}
-			err = handleRequest(myClient, req)
-			if err != nil {
-				return err
-			}
+			sqlChan <- line
 		}
 	}
-
+	close(sqlChan)
+	wg.Wait()
 	if serr := scanner.Err(); serr != nil {
 		return err
 	}
