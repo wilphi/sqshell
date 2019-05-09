@@ -19,3 +19,6 @@
 #ignore the dbfiles directory
 dbfiles/
 .vscode/
+
+#ignore executable file in Linux
+sqshell
