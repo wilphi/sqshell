@@ -1,3 +1,4 @@
+DROP TABLE mytable
 CREATE TABLE mytable (id int,firstname string,lastname string,addr string,city string,postalcode string,phone string,notes string)
 INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (1,"Hu","Shepard","231-3587 Mauris Road","Castello Tesino","9380","(384) 530-8363","amet, consectetuer adipiscing elit. Curabitur sed")
 INSERT INTO mytable (id,firstname,lastname,addr,city,postalcode,phone,notes) VALUES (2,"Timothy","Woods","Ap #547-3909 Massa Road","Meldert","6339 ZM","(939) 130-6736","enim, sit amet ornare")
