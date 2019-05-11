@@ -18,7 +18,7 @@ import (
 	"github.com/wilphi/sqsrv/sqprotocol/client"
 )
 
-const version = "v0.5.04"
+const version = "v0.6.00"
 const connString = "localhost:3333"
 
 func main() {
@@ -96,20 +96,25 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 					break
 				}
 			} else {
-				req := protocol.RequestToServer{Cmd: input}
-				log.Trace("Sending request to server: ", req)
-				err = handleRequest(myClient, req)
+				err = lineToServer(myClient, input)
 				if err != nil {
-					log.Trace("Error returned from SendRequest", err)
 					break
 				}
-
 			}
 		}
 	}
 
 }
 
+func lineToServer(myClient *client.Config, line string) error {
+	req := protocol.RequestToServer{Cmd: line}
+	log.Trace("Sending request to server: ", req)
+	err := handleRequest(myClient, req)
+	if err != nil {
+		log.Error("Error returned from SendRequest", err)
+	}
+	return err
+}
 func clientPool(sqlChan chan string, wg *sync.WaitGroup) {
 	defer wg.Done()
 	myClient, err := NewSrvClient(connString)
@@ -123,16 +128,12 @@ func clientPool(sqlChan chan string, wg *sync.WaitGroup) {
 		if !ok {
 			return
 		}
-		req := protocol.RequestToServer{Cmd: line}
-		err = handleRequest(myClient, req)
-		if err != nil {
-			log.Error(err)
-		}
+		lineToServer(myClient, line)
 	}
 }
 
 func readSQFromFile(myClient *client.Config, args []string) error {
-	var numClient int
+	var numClient, nProtect int
 	var err error
 	start := time.Now()
 
@@ -145,6 +146,13 @@ func readSQFromFile(myClient *client.Config, args []string) error {
 		}
 	} else {
 		numClient = 1
+	}
+	if len(args) > 2 {
+		// Number of statements to protect
+		nProtect, err = strconv.Atoi(args[2])
+		if err != nil {
+			nProtect = 1
+		}
 	}
 	file, err := os.Open(filename)
 	if err != nil {
@@ -159,15 +167,27 @@ func readSQFromFile(myClient *client.Config, args []string) error {
 	// create channel & wait group
 	sqlChan := make(chan string, numClient*2)
 	var wg sync.WaitGroup
-	for i := 0; i < numClient; i++ {
-		wg.Add(1)
-		go clientPool(sqlChan, &wg)
+	if numClient > 1 {
+		for i := 0; i < numClient; i++ {
+			wg.Add(1)
+			go clientPool(sqlChan, &wg)
+		}
 	}
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := s.TrimSpace(scanner.Text())
 		if line != "" {
-			sqlChan <- line
+			if nProtect > 0 || numClient == 1 {
+				// do this line sequentially
+				err := lineToServer(myClient, line)
+				if err != nil {
+					log.Errorf("Unable to execute line %s due to error: %s", line, err.Error())
+					return err
+				}
+				nProtect--
+			} else {
+				sqlChan <- line
+			}
 		}
 	}
 	close(sqlChan)
