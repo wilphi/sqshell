@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
 	"strings"
@@ -10,45 +11,40 @@ import (
 	"net"
 	"os"
 	"strconv"
-	s "strings"
 	"time"
 
-	log "github.com/sirupsen/logrus"
 	protocol "github.com/wilphi/sqsrv/sqprotocol"
 	"github.com/wilphi/sqsrv/sqprotocol/client"
 )
 
-const version = "v0.6.00"
-const connString = "localhost:3333"
+const version = "v0.7.00"
+
+var host, port *string
 
 func main() {
-	// setup logging
-	logFile, err := os.OpenFile("sqshell.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
-	if err != nil {
-		panic(err)
-	}
-	mw := io.MultiWriter(os.Stdout, logFile)
-	log.SetOutput(mw)
+	host = flag.String("host", "localhost", "Host name of the server")
+	port = flag.String("port", "3333", "TCP port for server to listen on")
+	flag.Parse()
 
-	log.SetLevel(log.InfoLevel)
-	log.Info("SQShell " + version)
-	log.Println("Connecting to server....")
+	fmt.Println("SQShell " + version)
+	fmt.Println("Connecting to server....")
 
-	myClient, err := NewSrvClient(connString)
+	myClient, err := NewSrvClient(*host + ":" + *port)
 	if err != nil {
-		return
+		// dont return
 	}
 	defer myClient.Close()
 
-	args := os.Args[1:]
+	args := flag.Args()
 	if len(args) > 0 {
 		err = readSQFromFile(myClient, args)
 		if err != nil {
-			log.Fatal("Error reading from file", err)
+			fmt.Println("Error reading from file", err)
+			os.Exit(0)
 		}
-	} else {
-		ReadFromStream(os.Stdin, myClient)
 	}
+
+	ReadFromStream(os.Stdin, myClient)
 
 }
 
@@ -56,7 +52,7 @@ func main() {
 func NewSrvClient(addr string) (*client.Config, error) {
 	conn, err := net.Dial("tcp", addr)
 	if err != nil {
-		log.Error("Error connecting to server ...", err.Error())
+		fmt.Println("Error connecting to server ...", err.Error())
 		return nil, err
 	}
 	return client.SetConn(conn), nil
@@ -73,15 +69,38 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 		}
-		input = s.TrimSpace(input)
+		input = strings.TrimSpace(input)
 		if input != "" {
-			cmd := s.Fields(input)
-			log.Trace(cmd)
-			log.Trace(len(cmd))
-			log.Trace("Is first Rune ", getFirstRune(input))
-			if s.ToLower(cmd[0]) == "exit" {
-				log.Println("Good bye!!")
+			cmd := strings.Fields(input)
+			switch strings.ToLower(cmd[0]) {
+			case "exit":
+				fmt.Println("Good bye!!")
 				os.Exit(0)
+			case "disconnect":
+				fmt.Println("Disconnecting...")
+				if myClient != nil {
+					myClient.Close()
+				}
+				continue
+			case "connect":
+				fmt.Println("Connecting...")
+				connstr := strings.Split(cmd[1], ":")
+				if len(connstr) != 2 {
+					fmt.Printf("Invalid connection string: %q\n", cmd[1])
+					continue
+				}
+				host = &connstr[0]
+				port = &connstr[1]
+				if myClient != nil {
+					myClient.Close()
+				}
+				myClient, err = NewSrvClient(cmd[1])
+				if err != nil {
+					fmt.Printf("Unable to connect to %q\n", cmd[1])
+					continue
+
+				}
+				continue
 			}
 			if getFirstRune(input) == '@' {
 				fmt.Printf("Reading from... %q\n", input[1:len(input)])
@@ -92,13 +111,14 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 				}
 				err = readSQFromFile(myClient, args)
 				if err != nil {
-					log.Trace("ReadSQFromFile returns error: ", err)
-					break
+					continue
 				}
 			} else {
 				err = lineToServer(myClient, input)
 				if err != nil {
-					break
+					fmt.Println(err)
+					//fmt.Println(err)
+					continue
 				}
 			}
 		}
@@ -108,18 +128,17 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 
 func lineToServer(myClient *client.Config, line string) error {
 	req := protocol.RequestToServer{Cmd: line}
-	log.Trace("Sending request to server: ", req)
 	err := handleRequest(myClient, req)
 	if err != nil {
-		log.Error("Error returned from SendRequest", err)
+		fmt.Println("Error returned from Server", err)
 	}
 	return err
 }
 func clientPool(sqlChan chan string, wg *sync.WaitGroup) {
 	defer wg.Done()
-	myClient, err := NewSrvClient(connString)
+	myClient, err := NewSrvClient(*host + ":" + *port)
 	if err != nil {
-		log.Error(err)
+		fmt.Println(err)
 		return
 	}
 	defer myClient.Close()
@@ -141,7 +160,7 @@ func readSQFromFile(myClient *client.Config, args []string) error {
 	if len(args) > 1 {
 		numClient, err = strconv.Atoi(args[1])
 		if err != nil {
-			log.Info("Invalid number of conncurrent clients")
+			fmt.Println("Invalid number of conncurrent clients")
 			numClient = 1
 		}
 	} else {
@@ -156,10 +175,11 @@ func readSQFromFile(myClient *client.Config, args []string) error {
 	}
 	file, err := os.Open(filename)
 	if err != nil {
-		log.Println(err)
 		if os.IsNotExist(err) {
+			fmt.Printf("File %q does not exist\n", filename)
 			return nil
 		}
+		fmt.Println("Error opening file: ", err)
 		return err
 	}
 	defer file.Close()
@@ -175,13 +195,13 @@ func readSQFromFile(myClient *client.Config, args []string) error {
 	}
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		line := s.TrimSpace(scanner.Text())
+		line := strings.TrimSpace(scanner.Text())
 		if line != "" {
 			if nProtect > 0 || numClient == 1 {
 				// do this line sequentially
 				err := lineToServer(myClient, line)
 				if err != nil {
-					log.Errorf("Unable to execute line %s due to error: %s", line, err.Error())
+					fmt.Printf("Unable to execute line %s due to error: %s", line, err.Error())
 					return err
 				}
 				nProtect--
@@ -196,7 +216,7 @@ func readSQFromFile(myClient *client.Config, args []string) error {
 		return err
 	}
 	elapsed := time.Since(start)
-	log.Printf("Elapsed time for file: %s", elapsed.Round(10*time.Millisecond))
+	fmt.Printf("Elapsed time for file: %s", elapsed.Round(10*time.Millisecond))
 	return nil
 
 }
@@ -219,7 +239,7 @@ func handleRequest(myClient *client.Config, req protocol.RequestToServer) error 
 	}
 
 	if resp.IsErr {
-		fmt.Println("Error received from server: ", resp.Msg)
+		fmt.Println(resp.Msg)
 		return nil
 	}
 	if resp.CMDResponse {
@@ -258,7 +278,7 @@ func handleRequest(myClient *client.Config, req protocol.RequestToServer) error 
 		return nil
 	}
 
-	log.Println(resp.Msg, resp.NRows, "Rows returned")
+	fmt.Println(resp.Msg, resp.NRows, "Rows returned")
 
 	return nil
 }
