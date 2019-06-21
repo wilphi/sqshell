@@ -13,8 +13,7 @@ import (
 	"strconv"
 	"time"
 
-	protocol "github.com/wilphi/sqsrv/sqprotocol"
-	"github.com/wilphi/sqsrv/sqprotocol/client"
+	"github.com/wilphi/sqsrv/sqprotocol"
 )
 
 const version = "v0.7.00"
@@ -49,17 +48,17 @@ func main() {
 }
 
 // NewSrvClient creates a new connection to the sqsrv
-func NewSrvClient(addr string) (*client.Config, error) {
+func NewSrvClient(addr string) (*sqprotocol.ClientConfig, error) {
 	conn, err := net.Dial("tcp", addr)
 	if err != nil {
 		fmt.Println("Error connecting to server ...", err.Error())
 		return nil, err
 	}
-	return client.SetConn(conn), nil
+	return sqprotocol.SetClientConn(conn), nil
 }
 
 // ReadFromStream -
-func ReadFromStream(rd io.Reader, myClient *client.Config) {
+func ReadFromStream(rd io.Reader, myClient *sqprotocol.ClientConfig) {
 	reader := bufio.NewReader(rd)
 
 	for {
@@ -126,8 +125,8 @@ func ReadFromStream(rd io.Reader, myClient *client.Config) {
 
 }
 
-func lineToServer(myClient *client.Config, line string) error {
-	req := protocol.RequestToServer{Cmd: line}
+func lineToServer(myClient *sqprotocol.ClientConfig, line string) error {
+	req := sqprotocol.RequestToServer{Cmd: line}
 	err := handleRequest(myClient, req)
 	if err != nil {
 		fmt.Println("Error returned from Server", err)
@@ -151,7 +150,7 @@ func clientPool(sqlChan chan string, wg *sync.WaitGroup) {
 	}
 }
 
-func readSQFromFile(myClient *client.Config, args []string) error {
+func readSQFromFile(myClient *sqprotocol.ClientConfig, args []string) error {
 	var numClient, nProtect int
 	var err error
 	start := time.Now()
@@ -226,7 +225,7 @@ func getFirstRune(str string) rune {
 	}
 	return ' '
 }
-func handleRequest(myClient *client.Config, req protocol.RequestToServer) error {
+func handleRequest(myClient *sqprotocol.ClientConfig, req sqprotocol.RequestToServer) error {
 
 	err := myClient.SendRequest(req)
 	if err != nil {
