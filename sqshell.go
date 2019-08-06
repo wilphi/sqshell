@@ -268,7 +268,7 @@ func handleRequest(myClient *sqprotocol.ClientConfig, req sqprotocol.RequestToSe
 				break
 			}
 			for _, d := range rw.Data {
-				fmt.Printf("%"+strconv.Itoa(d.GetLen())+"s\t", d.ToString())
+				fmt.Printf("%"+strconv.Itoa(d.Len())+"s\t", d.ToString())
 			}
 			fmt.Println()
 
