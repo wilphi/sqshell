@@ -22,3 +22,4 @@ dbfiles/
 
 #ignore executable file in Linux
 sqshell
+coords.sq
