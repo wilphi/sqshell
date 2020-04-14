@@ -1,0 +1,4 @@
+SQShell v0.12.00
+Connecting to server....
+Error connecting to server ... dial tcp 127.0.0.1:2222: connect: connection refused
+Good bye!!

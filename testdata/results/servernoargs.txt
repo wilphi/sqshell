@@ -1,0 +1,3 @@
+SQShell v0.12.00
+Connecting to server....
+Good bye!!

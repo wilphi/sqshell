@@ -1,0 +1,62 @@
+SQShell v0.12.00
+Connecting to server....
+
+SQSRV is an in-memory SQL server with persistance to disk.
+   SQL commands are a subset of SQL-92 and must be entered as a 
+   single line of text. Valid SQL commands include:
+	SELECT	INSERT INTO	DELETE	CREATE TABLE	DROP TABLE	UPDATE
+   Other commands are:
+	shutdown force - Immediately causes the termination of the sqsrv process.
+		 Inprocess requests will be abandoned.
+	shutdown - Initiates an orderly termination of the sqsrv process.
+		It will stop accepting new requests and finish currently running request.
+		Finally a checkpoint will also be run.
+	stats mem - Displays statistics on memory usage and garbage 
+		collection for the server
+	stats lock - Displays statistics on lock usage and delays due to 
+		locking for the server
+	gc - Initiates a garbage collection on the server
+	lock - Sets a Write lock on the given table
+	unlock - Removes Write lock on the given table
+	show tables - Displays the list of tables in the database
+	show table - Displays the structure of a given table
+	show conn - Displays the list of connections to the server
+	checkpoint - Ensures that all current data is durably written to disk
+Table List
+----------------------
+
+test 0 Rows returned
+Table List
+----------------------
+  test                
+
+testagain 0 Rows returned
+Table List
+----------------------
+  test                
+  testagain           
+
+2 rows inserted into test 0 Rows returned
+      col1	col2                          	col3                          	
+         1	test1                         	test2                         	
+         2	test3                         	test4                         	
+2 Rows returned
+Updated 2 rows from table 0 Rows returned
+      col1	col2                          	col3                          	
+        10	test1                         	test2                         	
+        20	test3                         	test4                         	
+2 Rows returned
+      col1	col2                          	
+0 Rows returned
+testagain 0 Rows returned
+Error: Table "testagain" does not exist
+Table List
+----------------------
+  test                
+
+test 0 Rows returned
+Table List
+----------------------
+
+Error: Table "test" does not exist
+Good bye!!

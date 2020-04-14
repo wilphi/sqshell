@@ -1,0 +1,18 @@
+help
+show tables
+create table test (col1 int, col2 string, col3 string)
+show tables
+create table testagain (col1 int not null, col2 string)
+show tables
+insert into test (col1, col2, col3) VALUES (1, "test1", "test2"), (2, "test3","test4")
+select * from test order by col1
+update test set col1 = col1*10
+select * from test order by col1
+select * from testagain order by col1
+drop table testagain
+select * from testagain order by col1
+show tables
+drop table test
+show tables
+select * from test order by col1
+EXIT

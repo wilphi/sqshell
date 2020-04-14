@@ -1,0 +1,4 @@
+SQShell v0.12.00
+Connecting to server....
+Error connecting to server ... dial tcp: lookup test: no such host
+Good bye!!

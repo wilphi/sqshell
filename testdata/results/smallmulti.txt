@@ -1,0 +1,180 @@
+SQShell v0.12.00
+Connecting to server....
+country 0 Rows returned
+city 0 Rows returned
+person 0 Rows returned
+3 rows inserted into country 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into city 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+1 rows inserted into person 0 Rows returned
+firstname                     	lastname                      	name                          	prov                          	short                         	
+Daron                         	Whitcome                      	Joliette                      	Québec                        	CAN                           	
+Eliana                        	Peasel                        	Tofino                        	British Columbia              	CAN                           	
+Elva                          	Velten                        	Joliette                      	Québec                        	CAN                           	
+Grisel                        	Martindale                    	Joliette                      	Québec                        	CAN                           	
+Nedra                         	Hanaway                       	Joliette                      	Québec                        	CAN                           	
+Tyrone                        	Ringen                        	Tofino                        	British Columbia              	CAN                           	
+Yvone                         	June                          	Joliette                      	Québec                        	CAN                           	
+Cornell                       	Codilla                       	Leeds                         	Leeds                         	GBR                           	
+Georgia                       	Kuffa                         	Leeds                         	Leeds                         	GBR                           	
+Jenna                         	Merisier                      	Leeds                         	Leeds                         	GBR                           	
+Linda                         	Calco                         	Hove                          	Brighton and Hove             	GBR                           	
+Ocie                          	Capossela                     	Hove                          	Brighton and Hove             	GBR                           	
+Rodrigo                       	Higman                        	Manchester                    	Manchester                    	GBR                           	
+Shelton                       	Leggat                        	Manchester                    	Manchester                    	GBR                           	
+Sophie                        	Schuh                         	Leeds                         	Leeds                         	GBR                           	
+Svetlana                      	Poirrier                      	Sheffield                     	Sheffield                     	GBR                           	
+16 Rows returned
+Server disconnected...
+Good bye!!
